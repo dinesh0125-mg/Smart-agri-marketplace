@@ -1,0 +1,100 @@
+.admin-farmers-page { display: flex; flex-direction: column; gap: 20px; }
+
+.farmers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.farmer-admin-card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  border: 1px solid #F0F9F0;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.farmer-admin-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(46,125,50,0.1);
+}
+
+.farmer-admin-top { display: flex; gap: 14px; align-items: flex-start; }
+
+.farmer-admin-img-wrap { position: relative; flex-shrink: 0; }
+
+.farmer-admin-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #E8F5E9;
+}
+
+.farmer-verified-badge {
+  position: absolute;
+  bottom: 0;
+  right: -2px;
+  font-size: 0.9rem;
+  background: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.farmer-admin-name { font-size: 0.95rem; font-weight: 700; color: #1A1A1A; margin-bottom: 3px; }
+.farmer-admin-loc { font-size: 0.78rem; color: #888; margin-bottom: 3px; }
+.farmer-admin-specialty { font-size: 0.78rem; color: #2E7D32; font-weight: 600; }
+
+.farmer-admin-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: #F8FFF8;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.fas {
+  text-align: center;
+  padding: 10px 6px;
+  border-right: 1px solid #E8F5E9;
+}
+
+.fas:last-child { border-right: none; }
+
+.fas-val { font-size: 0.9rem; font-weight: 800; color: #2E7D32; }
+.fas-label { font-size: 0.68rem; color: #aaa; margin-top: 2px; }
+
+.farmer-admin-actions { display: flex; gap: 8px; }
+
+.faa-btn {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.faa-btn.view { background: #E3F2FD; color: #1565C0; }
+.faa-btn.verify { background: #E8F5E9; color: #2E7D32; }
+.faa-btn.suspend { background: #FFEBEE; color: #C62828; }
+.faa-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+
+.farmer-modal-profile { display: flex; gap: 16px; align-items: center; }
+.farmer-modal-img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #4CAF50; }
+.farmer-modal-name { font-size: 1.1rem; font-weight: 700; color: #1A1A1A; }
+.farmer-modal-loc { font-size: 0.875rem; color: #888; margin-top: 4px; }
+
+@media (max-width: 1100px) { .farmers-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .farmers-grid { grid-template-columns: 1fr; } }

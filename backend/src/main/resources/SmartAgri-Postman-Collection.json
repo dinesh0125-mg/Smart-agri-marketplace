@@ -1,0 +1,499 @@
+{
+  "info": {
+    "name": "Smart Agriculture Marketplace API",
+    "description": "Complete REST API collection for Smart Agriculture Marketplace backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "variable": [
+    { "key": "baseUrl",       "value": "http://localhost:8080/api" },
+    { "key": "accessToken",   "value": "" },
+    { "key": "refreshToken",  "value": "" }
+  ],
+  "item": [
+    {
+      "name": "🔐 Auth",
+      "item": [
+        {
+          "name": "Register (Buyer)",
+          "request": {
+            "method": "POST", "url": "{{baseUrl}}/auth/register",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"fullName\": \"Rahul Sharma\",\n  \"email\": \"rahul@example.com\",\n  \"password\": \"Pass@1234\",\n  \"phone\": \"9876543210\",\n  \"role\": \"BUYER\"\n}" }
+          }
+        },
+        {
+          "name": "Register (Farmer)",
+          "request": {
+            "method": "POST", "url": "{{baseUrl}}/auth/register",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"fullName\": \"Ramesh Kumar\",\n  \"email\": \"ramesh@farm.com\",\n  \"password\": \"Pass@1234\",\n  \"phone\": \"9876500001\",\n  \"role\": \"FARMER\",\n  \"farmName\": \"Green Valley Farm\",\n  \"farmLocation\": \"Pune, Maharashtra\",\n  \"description\": \"Organic farm since 2010\",\n  \"experience\": \"14 years\",\n  \"specialty\": \"Vegetables, Fruits\"\n}" }
+          }
+        },
+        {
+          "name": "Login",
+          "event": [{ "listen": "test", "script": { "exec": ["const r = pm.response.json();", "if(r.data){ pm.collectionVariables.set('accessToken', r.data.accessToken); pm.collectionVariables.set('refreshToken', r.data.refreshToken); }"] } }],
+          "request": {
+            "method": "POST", "url": "{{baseUrl}}/auth/login",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"admin@smartagri.in\",\n  \"password\": \"Admin@123\"\n}" }
+          }
+        },
+        {
+          "name": "Login (Farmer)",
+          "event": [{ "listen": "test", "script": { "exec": ["const r = pm.response.json();", "if(r.data){ pm.collectionVariables.set('accessToken', r.data.accessToken); }"] } }],
+          "request": {
+            "method": "POST", "url": "{{baseUrl}}/auth/login",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"ramesh@farm.com\",\n  \"password\": \"Pass@1234\"\n}" }
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST", "url": "{{baseUrl}}/auth/refresh-token",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}" }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST", "url": "{{baseUrl}}/auth/logout",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Get Me",
+          "request": {
+            "method": "GET", "url": "{{baseUrl}}/auth/me",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Forgot Password",
+          "request": {
+            "method": "POST", "url": "{{baseUrl}}/auth/forgot-password",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"rahul@example.com\"\n}" }
+          }
+        },
+        {
+          "name": "Reset Password",
+          "request": {
+            "method": "POST", "url": "{{baseUrl}}/auth/reset-password",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"token\": \"YOUR_RESET_TOKEN\",\n  \"newPassword\": \"NewPass@1234\"\n}" }
+          }
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "POST", "url": "{{baseUrl}}/auth/change-password",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"currentPassword\": \"Pass@1234\",\n  \"newPassword\": \"NewPass@1234\"\n}" }
+          }
+        },
+        {
+          "name": "Verify Email",
+          "request": {
+            "method": "GET", "url": { "raw": "{{baseUrl}}/auth/verify-email?token=YOUR_TOKEN", "host": ["{{baseUrl}}"], "path": ["auth","verify-email"], "query": [{ "key": "token", "value": "YOUR_TOKEN" }] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🛍️ Products (Public)",
+      "item": [
+        {
+          "name": "Get All Products",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/products?page=0&size=12", "host": ["{{baseUrl}}"], "path": ["products"], "query": [{"key":"page","value":"0"},{"key":"size","value":"12"}] } }
+        },
+        {
+          "name": "Search Products",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/products?query=tomato&categoryId=1&minPrice=10&maxPrice=200&organic=false&sortBy=price&direction=asc&page=0&size=12", "host": ["{{baseUrl}}"], "path": ["products"] } }
+        },
+        {
+          "name": "Get Product by ID",
+          "request": { "method": "GET", "url": "{{baseUrl}}/products/1" }
+        },
+        {
+          "name": "Get Featured Products",
+          "request": { "method": "GET", "url": "{{baseUrl}}/products/featured" }
+        }
+      ]
+    },
+    {
+      "name": "📂 Categories (Public)",
+      "item": [
+        {
+          "name": "Get All Categories",
+          "request": { "method": "GET", "url": "{{baseUrl}}/categories" }
+        },
+        {
+          "name": "Get Category by ID",
+          "request": { "method": "GET", "url": "{{baseUrl}}/categories/1" }
+        }
+      ]
+    },
+    {
+      "name": "🌾 Farmers (Public)",
+      "item": [
+        {
+          "name": "Get All Farmers",
+          "request": { "method": "GET", "url": "{{baseUrl}}/farmers/public" }
+        },
+        {
+          "name": "Get Farmer by ID",
+          "request": { "method": "GET", "url": "{{baseUrl}}/farmers/public/1" }
+        },
+        {
+          "name": "Get Farmer Products",
+          "request": { "method": "GET", "url": "{{baseUrl}}/farmers/public/1/products" }
+        }
+      ]
+    },
+    {
+      "name": "⭐ Reviews (Public)",
+      "item": [
+        {
+          "name": "Get Product Reviews",
+          "request": { "method": "GET", "url": "{{baseUrl}}/products/1/reviews" }
+        }
+      ]
+    },
+    {
+      "name": "📈 Market Prices (Public)",
+      "item": [
+        {
+          "name": "Get All Market Prices",
+          "request": { "method": "GET", "url": "{{baseUrl}}/market-prices" }
+        }
+      ]
+    },
+    {
+      "name": "🧑‍💼 Farmer Panel",
+      "item": [
+        {
+          "name": "Farmer Dashboard",
+          "request": { "method": "GET", "url": "{{baseUrl}}/farmer/dashboard", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+        },
+        {
+          "name": "My Profile",
+          "request": { "method": "GET", "url": "{{baseUrl}}/farmer/profile", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+        },
+        {
+          "name": "My Products",
+          "request": { "method": "GET", "url": "{{baseUrl}}/farmer/products", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+        },
+        {
+          "name": "Add Product",
+          "request": {
+            "method": "POST", "url": "{{baseUrl}}/products",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "body": { "mode": "formdata", "formdata": [
+              {"key":"product","value":"{\"productName\":\"Fresh Tomatoes\",\"description\":\"Freshly harvested\",\"price\":45.00,\"stock\":100,\"unit\":\"kg\",\"categoryId\":1,\"organicCertified\":true,\"featured\":false,\"discount\":0}","type":"text","contentType":"application/json"},
+              {"key":"image","type":"file","src":""}
+            ]}
+          }
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PUT", "url": "{{baseUrl}}/products/1",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "body": { "mode": "formdata", "formdata": [
+              {"key":"product","value":"{\"productName\":\"Premium Tomatoes\",\"price\":55.00,\"stock\":80,\"unit\":\"kg\",\"organicCertified\":true}","type":"text","contentType":"application/json"}
+            ]}
+          }
+        },
+        {
+          "name": "Delete Product",
+          "request": { "method": "DELETE", "url": "{{baseUrl}}/products/1", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+        },
+        {
+          "name": "My Orders",
+          "request": { "method": "GET", "url": "{{baseUrl}}/farmer/orders", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+        },
+        {
+          "name": "Update Order Status",
+          "request": {
+            "method": "PATCH", "url": "{{baseUrl}}/farmer/orders/1/status",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"orderStatus\": \"SHIPPED\"\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🛒 Buyer Panel",
+      "item": [
+        {
+          "name": "🛒 Cart",
+          "item": [
+            {
+              "name": "Get Cart",
+              "request": { "method": "GET", "url": "{{baseUrl}}/buyer/cart", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+            },
+            {
+              "name": "Add to Cart",
+              "request": {
+                "method": "POST", "url": "{{baseUrl}}/buyer/cart/add",
+                "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"productId\": 1,\n  \"quantity\": 2\n}" }
+              }
+            },
+            {
+              "name": "Update Cart Item",
+              "request": {
+                "method": "PUT", "url": { "raw": "{{baseUrl}}/buyer/cart/items/1?quantity=5", "host": ["{{baseUrl}}"], "path": ["buyer","cart","items","1"], "query": [{"key":"quantity","value":"5"}] },
+                "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+              }
+            },
+            {
+              "name": "Remove from Cart",
+              "request": { "method": "DELETE", "url": "{{baseUrl}}/buyer/cart/items/1", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+            },
+            {
+              "name": "Clear Cart",
+              "request": { "method": "DELETE", "url": "{{baseUrl}}/buyer/cart/clear", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+            }
+          ]
+        },
+        {
+          "name": "📦 Orders",
+          "item": [
+            {
+              "name": "Place Order",
+              "request": {
+                "method": "POST", "url": "{{baseUrl}}/buyer/orders",
+                "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"deliveryAddress\": \"123 Main St, Mumbai, Maharashtra 400001\"\n}" }
+              }
+            },
+            {
+              "name": "My Orders",
+              "request": { "method": "GET", "url": "{{baseUrl}}/buyer/orders", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+            },
+            {
+              "name": "Order Details",
+              "request": { "method": "GET", "url": "{{baseUrl}}/buyer/orders/1", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+            },
+            {
+              "name": "Cancel Order",
+              "request": { "method": "PATCH", "url": "{{baseUrl}}/buyer/orders/1/cancel", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+            }
+          ]
+        },
+        {
+          "name": "💳 Payments",
+          "item": [
+            {
+              "name": "Create Payment Order",
+              "request": { "method": "POST", "url": "{{baseUrl}}/buyer/payments/create-order/1", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+            },
+            {
+              "name": "Verify Payment",
+              "request": {
+                "method": "POST", "url": "{{baseUrl}}/buyer/payments/verify",
+                "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"razorpayOrderId\": \"order_xxxx\",\n  \"razorpayPaymentId\": \"pay_xxxx\",\n  \"razorpaySignature\": \"sig_xxxx\"\n}" }
+              }
+            },
+            {
+              "name": "Payment Failure",
+              "request": {
+                "method": "POST", "url": { "raw": "{{baseUrl}}/buyer/payments/failure?razorpayOrderId=order_xxxx", "host": ["{{baseUrl}}"], "path": ["buyer","payments","failure"], "query": [{"key":"razorpayOrderId","value":"order_xxxx"}] },
+                "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+              }
+            }
+          ]
+        },
+        {
+          "name": "❤️ Wishlist",
+          "item": [
+            {
+              "name": "Get Wishlist",
+              "request": { "method": "GET", "url": "{{baseUrl}}/buyer/wishlist", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+            },
+            {
+              "name": "Add to Wishlist",
+              "request": { "method": "POST", "url": "{{baseUrl}}/buyer/wishlist/1", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+            },
+            {
+              "name": "Remove from Wishlist",
+              "request": { "method": "DELETE", "url": "{{baseUrl}}/buyer/wishlist/1", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+            },
+            {
+              "name": "Check Wishlist",
+              "request": { "method": "GET", "url": "{{baseUrl}}/buyer/wishlist/1/check", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+            }
+          ]
+        },
+        {
+          "name": "⭐ Reviews (Buyer)",
+          "item": [
+            {
+              "name": "Add Review",
+              "request": {
+                "method": "POST", "url": "{{baseUrl}}/buyer/products/1/reviews",
+                "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"rating\": 5,\n  \"comment\": \"Excellent quality! Very fresh produce.\"\n}" }
+              }
+            },
+            {
+              "name": "Edit Review",
+              "request": {
+                "method": "PUT", "url": "{{baseUrl}}/buyer/reviews/1",
+                "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"rating\": 4,\n  \"comment\": \"Good quality produce.\"\n}" }
+              }
+            },
+            {
+              "name": "Delete Review",
+              "request": { "method": "DELETE", "url": "{{baseUrl}}/buyer/reviews/1", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "👑 Admin Panel",
+      "item": [
+        {
+          "name": "Dashboard",
+          "request": { "method": "GET", "url": "{{baseUrl}}/admin/dashboard", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+        },
+        {
+          "name": "All Users",
+          "request": { "method": "GET", "url": "{{baseUrl}}/admin/users", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+        },
+        {
+          "name": "Block User",
+          "request": { "method": "PATCH", "url": "{{baseUrl}}/admin/users/2/block", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+        },
+        {
+          "name": "Activate User",
+          "request": { "method": "PATCH", "url": "{{baseUrl}}/admin/users/2/activate", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+        },
+        {
+          "name": "Delete User",
+          "request": { "method": "DELETE", "url": "{{baseUrl}}/admin/users/2", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+        },
+        {
+          "name": "All Farmers",
+          "request": { "method": "GET", "url": "{{baseUrl}}/admin/farmers", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+        },
+        {
+          "name": "Pending Farmers",
+          "request": { "method": "GET", "url": "{{baseUrl}}/admin/farmers/pending", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+        },
+        {
+          "name": "Approve Farmer",
+          "request": { "method": "PATCH", "url": "{{baseUrl}}/admin/farmers/1/approve", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+        },
+        {
+          "name": "Reject Farmer",
+          "request": { "method": "PATCH", "url": "{{baseUrl}}/admin/farmers/1/reject", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+        },
+        {
+          "name": "All Products",
+          "request": { "method": "GET", "url": "{{baseUrl}}/admin/products", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+        },
+        {
+          "name": "All Orders",
+          "request": { "method": "GET", "url": "{{baseUrl}}/admin/orders", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+        },
+        {
+          "name": "Update Order Status",
+          "request": {
+            "method": "PATCH", "url": "{{baseUrl}}/admin/orders/1/status",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"orderStatus\": \"DELIVERED\"\n}" }
+          }
+        },
+        {
+          "name": "Add Category",
+          "request": {
+            "method": "POST", "url": "{{baseUrl}}/categories",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "body": { "mode": "formdata", "formdata": [
+              {"key":"category","value":"{\"categoryName\":\"Roots & Tubers\",\"emoji\":\"🥕\",\"color\":\"#FF8C00\"}","type":"text","contentType":"application/json"}
+            ]}
+          }
+        },
+        {
+          "name": "Contact Messages",
+          "request": { "method": "GET", "url": "{{baseUrl}}/admin/contact-messages", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+        },
+        {
+          "name": "Update Market Price",
+          "request": {
+            "method": "PUT", "url": "{{baseUrl}}/market-prices/1",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"commodityName\": \"Tomato\",\n  \"emoji\": \"🍅\",\n  \"price\": 52.00,\n  \"change\": 7.0,\n  \"unit\": \"per kg\"\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔔 Notifications",
+      "item": [
+        {
+          "name": "Get Notifications",
+          "request": { "method": "GET", "url": "{{baseUrl}}/notifications", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+        },
+        {
+          "name": "Unread Count",
+          "request": { "method": "GET", "url": "{{baseUrl}}/notifications/unread-count", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+        },
+        {
+          "name": "Mark as Read",
+          "request": { "method": "PATCH", "url": "{{baseUrl}}/notifications/1/read", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+        },
+        {
+          "name": "Mark All as Read",
+          "request": { "method": "PATCH", "url": "{{baseUrl}}/notifications/read-all", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+        }
+      ]
+    },
+    {
+      "name": "👤 User Profile",
+      "item": [
+        {
+          "name": "Get Profile",
+          "request": { "method": "GET", "url": "{{baseUrl}}/user/profile", "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }] }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT", "url": "{{baseUrl}}/user/profile",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"fullName\": \"Rahul Sharma Updated\",\n  \"phone\": \"9876543211\",\n  \"address\": \"456 New St, Mumbai\"\n}" }
+          }
+        },
+        {
+          "name": "Upload Profile Image",
+          "request": {
+            "method": "POST", "url": "{{baseUrl}}/user/profile/image",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "body": { "mode": "formdata", "formdata": [{"key":"image","type":"file","src":""}] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📬 Contact",
+      "item": [
+        {
+          "name": "Send Contact Message",
+          "request": {
+            "method": "POST", "url": "{{baseUrl}}/contact",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"subject\": \"Inquiry about bulk orders\",\n  \"message\": \"Hi, I am interested in placing bulk orders for vegetables. Please get in touch.\"\n}" }
+          }
+        }
+      ]
+    }
+  ]
+}

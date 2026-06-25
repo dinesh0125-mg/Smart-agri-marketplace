@@ -1,0 +1,124 @@
+.admin-market-page { display: flex; flex-direction: column; gap: 20px; }
+
+.prices-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.price-admin-card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  border: 1px solid #F0F9F0;
+  transition: transform 0.2s;
+}
+
+.price-admin-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(46,125,50,0.1); }
+
+.price-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.price-name-row { display: flex; align-items: center; gap: 8px; }
+.price-emoji { font-size: 1.5rem; }
+.price-name { font-size: 1rem; font-weight: 700; color: #1A1A1A; }
+.price-card-actions { display: flex; gap: 6px; }
+
+.price-display { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+
+.price-current {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #2E7D32;
+}
+
+.price-current span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  color: #888;
+  font-weight: 500;
+}
+
+.price-change-badge {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.price-change-badge.up { background: #E8F5E9; color: #2E7D32; }
+.price-change-badge.down { background: #FFEBEE; color: #E53935; }
+
+.price-edit-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  background: #F8FFF8;
+  border: 1.5px solid #4CAF50;
+  border-radius: 10px;
+  padding: 6px 10px;
+}
+
+.price-rupee { font-size: 1rem; font-weight: 700; color: #2E7D32; }
+.price-unit { font-size: 0.8rem; color: #888; }
+
+.price-edit-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2E7D32;
+  outline: none;
+  font-family: 'DM Sans', sans-serif;
+  width: 80px;
+}
+
+.save-price-btn, .cancel-price-btn {
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.save-price-btn { background: #E8F5E9; color: #2E7D32; }
+.cancel-price-btn { background: #FFEBEE; color: #E53935; }
+
+.price-prev { font-size: 0.75rem; color: #aaa; margin-bottom: 8px; }
+
+.price-sparkline { display: block; }
+
+.bulk-update-card {}
+
+.bulk-update-form {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.bulk-update-note {
+  font-size: 0.8rem;
+  color: #888;
+  background: #F8FFF8;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border-left: 3px solid #4CAF50;
+}
+
+@media (max-width: 1100px) { .prices-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .prices-grid { grid-template-columns: 1fr; } }

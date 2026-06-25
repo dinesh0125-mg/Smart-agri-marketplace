@@ -1,0 +1,110 @@
+.categories-section { background: var(--white); }
+
+.section-pre {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #4CAF50;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 4px;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 16px;
+}
+
+.category-card {
+  text-decoration: none;
+  background: white;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  transition: var(--transition);
+  animation: fadeUp 0.6s ease both;
+  border: 1px solid #F0F9F0;
+}
+
+.category-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.cat-img-wrap {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+.cat-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.category-card:hover .cat-img { transform: scale(1.12); }
+
+.cat-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.25) 100%);
+}
+
+.cat-wishlist {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: transform 0.2s;
+  opacity: 0;
+}
+
+.category-card:hover .cat-wishlist { opacity: 1; }
+.cat-wishlist:hover { transform: scale(1.2); }
+
+.cat-info {
+  padding: 12px;
+  text-align: center;
+}
+
+.cat-emoji { font-size: 1.4rem; }
+
+.cat-name {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin: 4px 0 2px;
+  line-height: 1.3;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.cat-count {
+  font-size: 0.72rem;
+  color: #2E7D32;
+  font-weight: 600;
+}
+
+@media (max-width: 1200px) {
+  .categories-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .categories-grid { grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .cat-name { font-size: 0.75rem; }
+}
+
+@media (max-width: 480px) {
+  .categories-grid { grid-template-columns: repeat(2, 1fr); }
+}
